@@ -14,6 +14,8 @@
         body.drawer-open {
             overflow: hidden;
             position: fixed;
+            top: 0;
+            left: 0;
             height: 100%;
             width: 100%;
         }
@@ -96,13 +98,13 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: calc(100% - 5px);
             z-index: 1;
             transition: transform 0.3s ease-out;
         }
 
         .drawer--folded {
-            transform: translateY(calc(100% - 130px));
+            transform: translateY(calc(100% - 52px));
         }
 
         .drawer__container {
@@ -158,6 +160,7 @@
         <div class="drawer drawer--folded">
             <div class="drawer__container">
                 <button class="drawer__minimize"></button>
+                <input type="text" name="comment" id="comment" placeholder="Введите комментарий">
                 <div class="likes">Нравится</div>
                 <ul class="comments">
                     <li class="comments__item">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias temporibus quibusdam animi natus repellat ex, sed quod culpa et deserunt eos veniam magnam aut, illum facilis sint aspernatur quae dolor!</li>
