@@ -1,0 +1,19 @@
+.news-comments-curtain {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    transition: transform .3s cubic-bezier(.42, 0, 1, 1);
+
+    &_mode_folded {
+        transform: translateY(calc(100% - 52px));
+    }
+}
+
+.page_curtain_open {
+    position: fixed;
+    height: 100%;
+    // width: 100%;
+}
