@@ -1,0 +1,6 @@
+.comments {
+    &-text {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}

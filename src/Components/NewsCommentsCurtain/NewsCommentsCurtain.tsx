@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { cn } from '@bem-react/classname';
 
+import { YandexComments } from '../YandexComments/YandexComments';
+import foldIcon from './images/foldIcon.svg';
 import './NewsCommentsCurtain.scss';
 
 const cls = cn('news-comments-curtain');
@@ -8,7 +10,7 @@ const cls = cn('news-comments-curtain');
 export enum Mode {
     FOLDED = 'folded',
     PREVIEW = 'preview',
-    OPEN = 'fullscreen'
+    OPEN = 'open'
 }
 
 export interface IProps {}
@@ -19,10 +21,16 @@ export interface IState {
 export class NewsCommentsCurtain extends React.PureComponent<IProps, IState> {
     constructor(props: IProps) {
         super(props);
-        this.state = { mode: Mode.OPEN };
+
+        this.curtainRef = React.createRef();
+        this.inputRef = React.createRef();
+
+        this.state = { mode: Mode.FOLDED };
     }
 
     private scroll: number = window.pageYOffset;
+    private curtainRef: React.RefObject<HTMLDivElement>;
+    private inputRef: React.RefObject<HTMLInputElement>;
 
     componentDidMount() {
         const { mode } = this.state;
@@ -32,11 +40,12 @@ export class NewsCommentsCurtain extends React.PureComponent<IProps, IState> {
         }
     }
 
-    handleClick = () => {
+    handleHeaderClick = () => {
         const { mode } = this.state;
 
         switch (mode) {
             case Mode.FOLDED:
+                // this.inputRef.current!.focus();
                 this.open();
                 break;
 
@@ -46,6 +55,23 @@ export class NewsCommentsCurtain extends React.PureComponent<IProps, IState> {
         
             default:
                 break;
+        }
+    }
+
+    handleFoldClick = () => {
+        this.fold();
+    }
+
+    handleInputClick = (e: React.SyntheticEvent) => {
+        const { mode } = this.state;
+        e.stopPropagation();
+
+        if (mode === Mode.FOLDED) {
+            this.open();
+
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+            }, 200);
         }
     }
 
@@ -74,8 +100,17 @@ export class NewsCommentsCurtain extends React.PureComponent<IProps, IState> {
         const { mode } = this.state; 
 
         return (
-            <div className={cls({mode})} onClick={this.handleClick}>
-                Шторка
+            <div className={cls({mode})} ref={this.curtainRef}>
+                <div className={cls('overlay')}></div>
+                <div className={cls('container')}>
+                    {mode === Mode.FOLDED ?
+                        <div className={cls('header')} onClick={this.handleHeaderClick}>HEADER</div> :
+                        <div className={cls('fold')} onClick={this.handleFoldClick}>FOLD</div>
+                    }
+                    <div className={cls('content')}>
+                        <YandexComments />
+                    </div>
+                </div>
             </div>
         );
     }
