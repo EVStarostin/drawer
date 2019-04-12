@@ -23,14 +23,11 @@ export class NewsCommentsCurtain extends React.PureComponent<IProps, IState> {
         super(props);
 
         this.curtainRef = React.createRef();
-        this.inputRef = React.createRef();
-
         this.state = { mode: Mode.FOLDED };
     }
 
     private scroll: number = window.pageYOffset;
     private curtainRef: React.RefObject<HTMLDivElement>;
-    private inputRef: React.RefObject<HTMLInputElement>;
 
     componentDidMount() {
         const { mode } = this.state;
@@ -45,7 +42,6 @@ export class NewsCommentsCurtain extends React.PureComponent<IProps, IState> {
 
         switch (mode) {
             case Mode.FOLDED:
-                // this.inputRef.current!.focus();
                 this.open();
                 break;
 
@@ -60,19 +56,6 @@ export class NewsCommentsCurtain extends React.PureComponent<IProps, IState> {
 
     handleFoldClick = () => {
         this.fold();
-    }
-
-    handleInputClick = (e: React.SyntheticEvent) => {
-        const { mode } = this.state;
-        e.stopPropagation();
-
-        if (mode === Mode.FOLDED) {
-            this.open();
-
-            setTimeout(() => {
-                window.scrollTo(0, 0);
-            }, 200);
-        }
     }
 
     open = () => {
